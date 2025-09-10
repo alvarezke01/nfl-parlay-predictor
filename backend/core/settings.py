@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'games',
-    # 'predictions',  # TODO: Add later
+    'predictions', 
 ]
 
 MIDDLEWARE = [
