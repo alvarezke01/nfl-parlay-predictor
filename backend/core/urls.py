@@ -18,14 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from games.views import TeamViewSet, GameViewSet, OddsViewSet
 
-# Create router for API endpoints
 router = DefaultRouter()
-# TODO: Register viewsets here later
+router.register(r"teams", TeamViewSet, basename="teams")
+router.register(r"games", GameViewSet, basename="games")
+router.register(r"odds", OddsViewSet, basename="odds")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/', include(router.urls)),
+    path("admin/", admin.site.urls),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema")),
+    path("api/", include(router.urls)),
 ]
