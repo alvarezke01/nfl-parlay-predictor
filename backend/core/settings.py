@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'corsheaders',
-    # 'games',  # TODO: Add later
+    'games',
     # 'predictions',  # TODO: Add later
 ]
 
