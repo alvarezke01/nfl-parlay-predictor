@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from .models import Team, Game, Odds
 from .serializers import TeamSerializer, GameSerializer, OddsSerializer
 
@@ -8,6 +9,14 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TeamSerializer
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name="season", type=int, required=False, location=OpenApiParameter.QUERY,
+                         description="Filter by season, e.g., 2025"),
+        OpenApiParameter(name="week", type=int, required=False, location=OpenApiParameter.QUERY,
+                         description="Filter by week number, e.g., 1"),
+    ]
+)
 class GameViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = GameSerializer
 
@@ -22,6 +31,12 @@ class GameViewSet(viewsets.ReadOnlyModelViewSet):
         return qs.order_by("kickoff")
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name="game_id", type=int, required=False, location=OpenApiParameter.QUERY,
+                         description="Filter by Game ID"),
+    ]
+)
 class OddsViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OddsSerializer
 

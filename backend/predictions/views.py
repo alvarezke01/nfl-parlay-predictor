@@ -1,8 +1,15 @@
 from rest_framework import viewsets
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from .models import Prediction
 from .serializers import PredictionSerializer
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name="game_id", type=int, required=False, location=OpenApiParameter.QUERY,
+                         description="Filter by Game ID"),
+    ]
+)
 class PredictionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PredictionSerializer
 
