@@ -20,6 +20,7 @@ from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from games.views import TeamViewSet, GameViewSet, OddsViewSet
 from predictions.views import PredictionViewSet
+from parlays.views import ParlayEvaluateView
 
 router = DefaultRouter()
 router.register(r"teams", TeamViewSet, basename="teams")
@@ -31,5 +32,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema")),
+    path("api/parlay/evaluate", ParlayEvaluateView.as_view(), name="parlay-evaluate"),
     path("api/", include(router.urls)),
 ]
