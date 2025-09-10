@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'corsheaders',
-    'games',
+    'games',  
     'predictions', 
+    'parlays',
 ]
 
 MIDDLEWARE = [
