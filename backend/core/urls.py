@@ -19,11 +19,13 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from games.views import TeamViewSet, GameViewSet, OddsViewSet
+from predictions.views import PredictionViewSet
 
 router = DefaultRouter()
 router.register(r"teams", TeamViewSet, basename="teams")
 router.register(r"games", GameViewSet, basename="games")
 router.register(r"odds", OddsViewSet, basename="odds")
+router.register(r"predictions", PredictionViewSet, basename="predictions")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
