@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import Parlay, ParlayLeg
 
 
 class ParlayLegInputSerializer(serializers.Serializer):
@@ -28,5 +29,20 @@ class ParlayEvaluateResponseSerializer(serializers.Serializer):
     stake = serializers.FloatField()
     expected_payout = serializers.FloatField()
     expected_value = serializers.FloatField()
+
+
+# Read-only model serializers for persisted Parlays
+class ParlayLegModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ParlayLeg
+        fields = "__all__"
+
+
+class ParlayModelSerializer(serializers.ModelSerializer):
+    legs = ParlayLegModelSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Parlay
+        fields = "__all__"
 
 

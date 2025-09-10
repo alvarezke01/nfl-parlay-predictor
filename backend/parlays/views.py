@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import viewsets
 from drf_spectacular.utils import extend_schema, OpenApiExample
 from betting.utils import (
     implied_prob_from_american, fair_american_from_prob,
@@ -8,7 +9,9 @@ from betting.utils import (
 from .serializers import (
     ParlayEvaluateRequestSerializer,
     ParlayEvaluateResponseSerializer,
+    ParlayModelSerializer,
 )
+from .models import Parlay
 
 
 class ParlayEvaluateView(APIView):
@@ -76,5 +79,10 @@ class ParlayEvaluateView(APIView):
             "expected_payout": round(expected_payout, 2),
             "expected_value": round(expected_value, 2),
         })
+
+
+class ParlayViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Parlay.objects.prefetch_related("legs").order_by("-created_at")
+    serializer_class = ParlayModelSerializer
 
 
