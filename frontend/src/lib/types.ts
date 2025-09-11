@@ -5,8 +5,13 @@ export type Game = {
   week: number;
   home_team: number;
   away_team: number;
+  home: string;  // Team name from serializer
+  away: string;  // Team name from serializer
   kickoff: string;
   venue?: string | null;
+  roof?: string | null;
+  weather_temp?: number | null;
+  weather_wind?: number | null;
 };
 export type Odds = {
   id: number;
