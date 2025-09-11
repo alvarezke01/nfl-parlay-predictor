@@ -10,6 +10,7 @@ from .serializers import (
     ParlayEvaluateRequestSerializer,
     ParlayEvaluateResponseSerializer,
     ParlayModelSerializer,
+    ParlayCreateSerializer,
 )
 from .models import Parlay
 
@@ -79,6 +80,35 @@ class ParlayEvaluateView(APIView):
             "expected_payout": round(expected_payout, 2),
             "expected_value": round(expected_value, 2),
         })
+
+
+class ParlayCreateView(APIView):
+    @extend_schema(
+        tags=["parlay"],
+        summary="Create and persist a parlay",
+        description="Computes EV, creates Parlay and ParlayLeg records, returns the persisted parlay with nested legs.",
+        request=ParlayCreateSerializer,
+        responses=ParlayModelSerializer,
+        examples=[OpenApiExample(
+            "Create three-leg parlay",
+            value={
+                "stake": 25,
+                "legs": [
+                    {"model_prob": 0.65, "market_odds_american": -120},
+                    {"model_prob": 0.58, "market_odds_american": -110},
+                    {"model_prob": 0.35, "market_odds_american": 180}
+                ]
+            }
+        )]
+    )
+    def post(self, request):
+        serializer = ParlayCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        parlay = serializer.save()
+        
+        # Return the created parlay with nested legs
+        response_serializer = ParlayModelSerializer(parlay)
+        return Response(response_serializer.data, status=201)
 
 
 class ParlayViewSet(viewsets.ReadOnlyModelViewSet):
