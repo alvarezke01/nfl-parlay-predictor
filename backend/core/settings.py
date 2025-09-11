@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'games',  
     'predictions', 
     'parlays',
+    'ingest',
 ]
 
 MIDDLEWARE = [
